@@ -12,13 +12,13 @@ The system follows a modern tailored **Client-Server Architecture**, decoupling 
 
 ```mermaid
 graph TD
-    Client[📱 React Client (Vite)]
-    API[🛡️ Express API Gateway]
-    DB[(🗄️ PostgreSQL Database)]
+    Client["📱 React Client (Vite)"]
+    API["🛡️ Express API Gateway"]
+    DB[("🗄️ PostgreSQL Database")]
 
     subgraph "Frontend Layer"
         Client -->|REST / Axios| API
-        Client -.->|Glassmorphism UI| CSS[StripeLanding.css]
+        Client -.->|Glassmorphism UI| CSS["StripeLanding.css"]
     end
 
     subgraph "Backend Layer"
@@ -28,7 +28,7 @@ graph TD
     end
 
     subgraph "Data Persistence"
-        DB -->|ACID Compliance| Tables[Customers, Plans, Subscriptions]
+        DB -->|ACID Compliance| Tables["Customers, Plans, Subscriptions"]
     end
 ```
 
