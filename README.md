@@ -98,6 +98,41 @@ npm run dev
 # App runs on http://localhost:5173
 ```
 
+## 🔧 Troubleshooting & Common Issues
+
+Having trouble running the project locally? Check these common solutions.
+
+### 1. Database Connection Refused
+**Error**: `connection to server at "localhost" (::1), port 5432 failed: Connection refused`
+-   **Cause**: PostgreSQL is not running or the port is blocked.
+-   **Fix**:
+    -   Ensure the Postgres service is active: `sudo service postgresql start` or via your OS service manager.
+    -   Verify details in `backend/.env` match your local DB credentials.
+
+### 2. "Relation does not exist"
+**Error**: `error: relation "users" does not exist`
+-   **Cause**: The database tables haven't been created yet.
+-   **Fix**: Check `backend/src/db/schema.sql` (if provided) or manually create the required tables (`customers`, `plans`, `subscriptions`, `users`) in your database.
+
+### 3. Port Already in Use
+**Error**: `EADDRINUSE: address already in use :::3000`
+-   **Cause**: Another instance of the backend is already running.
+-   **Fix**:
+    -   Kill the process: `npx kill-port 3000`
+    -   Or change `PORT` in `.env` and restart.
+
+### 4. White Screen / 404 in Frontend
+-   **Cause**: The API call is failing or the backend isn't running.
+-   **Fix**:
+    -   Check the browser console (F12) for Network errors.
+    -   Ensure `VITE_API_BASE_URL` in `frontend/.env` points to your running backend (e.g., `http://localhost:3000/api`).
+
+### 5. Authentication Fails (JWT Error)
+-   **Cause**: Missing or mismatched `JWT_SECRET`.
+-   **Fix**: Ensure `JWT_SECRET` is set in `backend/.env` and is a secure random string. Restart the server after changing it.
+
+---
+
 ## 🧠 Implementation Details
 
 ### **1. Idempotency & Concurrency**
