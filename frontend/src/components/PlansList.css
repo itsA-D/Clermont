@@ -1,0 +1,308 @@
+/* Plans List Container */
+.plans-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Section */
+.plans-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.plans-title h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1a1f36;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
+}
+
+.plans-subtitle {
+    color: #697386;
+    font-size: 0.95rem;
+}
+
+/* Actions Area */
+.plans-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Modern Toggle Switch */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.toggle-input {
+    display: none;
+}
+
+.toggle-slider {
+    width: 44px;
+    height: 24px;
+    background-color: #e3e8ee;
+    border-radius: 99px;
+    position: relative;
+    transition: background-color 0.2s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.toggle-slider::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-input:checked+.toggle-slider {
+    background-color: #635bff;
+}
+
+.toggle-input:checked+.toggle-slider::after {
+    transform: translateX(20px);
+}
+
+.toggle-label {
+    font-size: 0.9rem;
+    color: #4f566b;
+    font-weight: 500;
+}
+
+/* Primary Button */
+.btn-primary-add {
+    background: #635bff;
+    color: white;
+    padding: 0.65rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary-add:hover {
+    background: #5449e8;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Table Card */
+.plans-table-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.modern-table thead {
+    background: #f7fafc;
+    border-bottom: 1px solid #e3e8ee;
+}
+
+.modern-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #5c6b7f;
+}
+
+.modern-table td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f2f5f7;
+    color: #3c4257;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.modern-table tr:last-child td {
+    border-bottom: none;
+}
+
+.modern-table tr {
+    transition: background-color 0.15s ease;
+}
+
+.modern-table tr:hover {
+    background-color: #f7fafc;
+}
+
+/* Table content styling */
+.plan-name-cell {
+    font-weight: 600;
+    color: #1a1f36;
+}
+
+.description-text {
+    color: #697386;
+    font-size: 0.85rem;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price-text {
+    font-weight: 600;
+    color: #1a1f36;
+    font-feature-settings: "tnum";
+}
+
+.capacity-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    padding: 0 0.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: #e3e8ee;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4f566b;
+}
+
+.capacity-badge.low {
+    background: #fff7ed;
+    color: #9a3412;
+    border: 1px solid #ffedd5;
+}
+
+.capacity-badge.critical {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fee2e2;
+}
+
+.capacity-badge.good {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
+}
+
+/* Status Badges */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-pill::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.status-pill.active {
+    background: #dcfce7;
+    color: #14532d;
+}
+
+.status-pill.active::before {
+    background: #16a34a;
+}
+
+.status-pill.inactive {
+    background: #fee2e2;
+    color: #7f1d1d;
+}
+
+.status-pill.inactive::before {
+    background: #dc2626;
+}
+
+/* Edit Button */
+.btn-edit {
+    padding: 0.4rem 0.85rem;
+    background: white;
+    border: 1px solid #d9dce1;
+    border-radius: 6px;
+    color: #4f566b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-edit:hover {
+    border-color: #635bff;
+    color: #635bff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+/* Utility */
+.text-right {
+    text-align: right;
+}
+
+.empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: #697386;
+}
