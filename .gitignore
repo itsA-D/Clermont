@@ -10,6 +10,7 @@
 .env.production.local
 backend/.env
 frontend/.env
+.gitignore
 
 # Build Outputs
 dist/
@@ -40,4 +41,6 @@ temp/
 
 # docs - 
 implementations-.md
-DESIGN.md
+DESIGN.md                
+DEPLOYMENT.md
+DEPLOYMENT_GUIDE.md
