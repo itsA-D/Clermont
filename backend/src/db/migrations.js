@@ -61,6 +61,21 @@ export async function runMigrations() {
       );
     `);
 
+    // Add status column to subscriptions if missing (Fix for existing deployments)
+    await client.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'subscriptions' AND column_name = 'status'
+        ) THEN
+          ALTER TABLE subscriptions ADD COLUMN status TEXT DEFAULT 'active';
+          -- Backfill status based on is_active
+          UPDATE subscriptions SET status = 'cancelled' WHERE is_active = false;
+        END IF;
+      END $$;
+    `);
+
     // Users table for auth
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
