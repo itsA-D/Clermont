@@ -26,6 +26,41 @@ export async function runMigrations() {
       );
     `);
 
+    // Base tables: Plans
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS plans (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        name TEXT NOT NULL,
+        price NUMERIC(10, 2) NOT NULL,
+        duration_days INTEGER NOT NULL,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Base tables: Customers
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS customers (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        email TEXT UNIQUE NOT NULL,
+        name TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // Base tables: Subscriptions
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS subscriptions (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        customer_id UUID REFERENCES customers(id),
+        plan_id UUID REFERENCES plans(id),
+        start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        end_date TIMESTAMP,
+        is_active BOOLEAN DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
     // Users table for auth
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
