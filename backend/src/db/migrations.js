@@ -73,6 +73,26 @@ export async function runMigrations() {
           -- Backfill status based on is_active
           UPDATE subscriptions SET status = 'cancelled' WHERE is_active = false;
         END IF;
+
+        -- Ensure purchased_at exists (if missing, might need to backfill from start_date)
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'subscriptions' AND column_name = 'purchased_at'
+        ) THEN
+          ALTER TABLE subscriptions ADD COLUMN purchased_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+          -- Backfill from start_date if available
+          UPDATE subscriptions SET purchased_at = start_date;
+        END IF;
+
+        -- Ensure expires_at exists (if missing, might need to backfill from end_date)
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'subscriptions' AND column_name = 'expires_at'
+        ) THEN
+          ALTER TABLE subscriptions ADD COLUMN expires_at TIMESTAMP;
+          -- Backfill from end_date if available
+          UPDATE subscriptions SET expires_at = end_date;
+        END IF;
       END $$;
     `);
 
