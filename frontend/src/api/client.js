@@ -23,17 +23,19 @@ apiClient.interceptors.request.use((config) => {
             config.headers = config.headers || {};
             config.headers.Authorization = `Bearer ${token}`;
         }
-    } catch (_) {}
+    } catch (_) { }
     return config;
 });
 
 // Error handling interceptor
+// Error handling interceptor
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
+        // Log the error but reject with the full error object so components can check status codes
         const errorMessage = error.response?.data?.error || error.message || 'An error occurred';
         console.error('API Error:', errorMessage);
-        throw new Error(errorMessage);
+        return Promise.reject(error);
     }
 );
 
