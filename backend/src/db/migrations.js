@@ -93,6 +93,41 @@ export async function runMigrations() {
           -- Backfill from end_date if available
           UPDATE subscriptions SET expires_at = end_date;
         END IF;
+
+        -- Ensure cancelled_at exists
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'subscriptions' AND column_name = 'cancelled_at'
+        ) THEN
+          ALTER TABLE subscriptions ADD COLUMN cancelled_at TIMESTAMP;
+        END IF;
+      END $$;
+    `);
+
+    // Ensure Plans table has description and capacity columns
+    await client.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'plans' AND column_name = 'description'
+        ) THEN
+          ALTER TABLE plans ADD COLUMN description TEXT;
+        END IF;
+
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'plans' AND column_name = 'total_capacity'
+        ) THEN
+          ALTER TABLE plans ADD COLUMN total_capacity INTEGER DEFAULT 100;
+        END IF;
+
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'plans' AND column_name = 'remaining_capacity'
+        ) THEN
+          ALTER TABLE plans ADD COLUMN remaining_capacity INTEGER DEFAULT 100;
+        END IF;
       END $$;
     `);
 
