@@ -51,7 +51,13 @@ function PricingGrid() {
         setSelectedPrice(null);
       }, 2000);
     } catch (e) {
-      setMessage(e.message);
+      if (e.response && e.response.status === 409) {
+        setMessage('You have already subscribed to this plan.');
+      } else if (e.response && e.response.data && e.response.data.message) {
+        setMessage(e.response.data.message);
+      } else {
+        setMessage(e.message || 'An unexpected error occurred.');
+      }
     } finally {
       setProcessing(false);
     }
