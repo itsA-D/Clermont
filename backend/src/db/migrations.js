@@ -119,14 +119,19 @@ export async function runMigrations() {
           SELECT 1 FROM information_schema.columns 
           WHERE table_name = 'plans' AND column_name = 'total_capacity'
         ) THEN
-          ALTER TABLE plans ADD COLUMN total_capacity INTEGER DEFAULT 100;
+          ALTER TABLE plans ADD COLUMN total_capacity BIGINT DEFAULT 100;
+        ELSE 
+          -- If column exists but is INTEGER, alter it to BIGINT (for safe updates)
+          ALTER TABLE plans ALTER COLUMN total_capacity TYPE BIGINT;
         END IF;
 
         IF NOT EXISTS (
           SELECT 1 FROM information_schema.columns 
           WHERE table_name = 'plans' AND column_name = 'remaining_capacity'
         ) THEN
-          ALTER TABLE plans ADD COLUMN remaining_capacity INTEGER DEFAULT 100;
+          ALTER TABLE plans ADD COLUMN remaining_capacity BIGINT DEFAULT 100;
+        ELSE
+          ALTER TABLE plans ALTER COLUMN remaining_capacity TYPE BIGINT;
         END IF;
       END $$;
     `);
