@@ -509,7 +509,9 @@ export async function purchaseSubscription(customerId, planId, idempotencyKey = 
         const existingSubResult = await client.query(existingSubQuery, [customerId, planId]);
 
         if (existingSubResult.rows.length > 0) {
-            throw new Error('Customer already has an active subscription to this plan');
+            const err = new Error('You have already subscribed to this plan.');
+            err.statusCode = 409;
+            throw err;
         }
 
         // Create subscription
