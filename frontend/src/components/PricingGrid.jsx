@@ -51,8 +51,10 @@ function PricingGrid() {
         setSelectedPrice(null);
       }, 2000);
     } catch (e) {
-      if (e.response && e.response.status === 409) {
-        setMessage('You have already subscribed to this plan.');
+      console.error("Purchase error:", e);
+      // Check for 409 status OR if the message content matches what the backend sends
+      if ((e.response && e.response.status === 409) || (e.message && e.message.includes('already subscribed'))) {
+        setMessage('You already subscribed to this plan :)');
       } else if (e.response && e.response.data && e.response.data.message) {
         setMessage(e.response.data.message);
       } else {
