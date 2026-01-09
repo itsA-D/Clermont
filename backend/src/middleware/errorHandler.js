@@ -30,6 +30,14 @@ export function errorHandler(err, req, res, next) {
         }
     }
 
+    // Custom application errors (e.g. 409 Conflict, 400 Bad Request)
+    if (err.statusCode) {
+        return res.status(err.statusCode).json({
+            error: err.name || 'Error',
+            message: err.message
+        });
+    }
+
     // Default error
     res.status(500).json({
         error: 'Internal server error',
